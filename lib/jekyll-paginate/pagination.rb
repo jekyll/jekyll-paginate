@@ -1,5 +1,5 @@
 module Jekyll
-  module Generators
+  module Paginate
     class Pagination < Generator
       # This generator is safe from arbitrary code execution.
       safe true
