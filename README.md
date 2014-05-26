@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-Once the gem is installed in your
+Once the gem is installed on your system, Jekyll will auto-require it. Just set the following configuration
 
 ## Contributing
 
