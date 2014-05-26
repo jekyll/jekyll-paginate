@@ -1,6 +1,6 @@
-# Jekyll::Paginate
+# Jekyll::Generators::Pagination
 
-TODO: Write a gem description
+Default pagination generator for Jekyll.
 
 ## Installation
 
@@ -18,11 +18,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Once the gem is installed in your
 
 ## Contributing
 
-1. Fork it ( http://github.com/<my-github-username>/jekyll-paginate/fork )
+1. Fork it ( http://github.com/jekyll/jekyll-paginate/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

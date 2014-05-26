@@ -1,7 +1,7 @@
 require "jekyll/paginate/version"
+require "jekyll/pagination"
 
 module Jekyll
   module Paginate
-    # Your code goes here...
   end
 end
