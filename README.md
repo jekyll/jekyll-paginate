@@ -1,4 +1,4 @@
-# Jekyll::Generators::Pagination
+# Jekyll::Paginate
 
 Default pagination generator for Jekyll.
 
