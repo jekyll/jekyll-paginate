@@ -2,102 +2,130 @@ require 'spec_helper'
 
 describe(Jekyll::Paginate::Pager) do
 
-  should "calculate number of pages" do
-    assert_equal(0, Pager.calculate_pages([], '2'))
-    assert_equal(1, Pager.calculate_pages([1], '2'))
-    assert_equal(1, Pager.calculate_pages([1,2], '2'))
-    assert_equal(2, Pager.calculate_pages([1,2,3], '2'))
-    assert_equal(2, Pager.calculate_pages([1,2,3,4], '2'))
-    assert_equal(3, Pager.calculate_pages([1,2,3,4,5], '2'))
+  it "calculate number of pages" do
+    expect(described_class.calculate_pages([], '2')).to eql(0)
+    expect(described_class.calculate_pages([1], '2')).to eql(1)
+    expect(described_class.calculate_pages([1,2], '2')).to eql(1)
+    expect(described_class.calculate_pages([1,2,3], '2')).to eql(2)
+    expect(described_class.calculate_pages([1,2,3,4], '2')).to eql(2)
+    expect(described_class.calculate_pages([1,2,3,4,5], '2')).to eql(3)
   end
 
-  should "determine the pagination path" do
-    assert_equal("/index.html",  Pager.paginate_path(build_site, 1))
-    assert_equal("/page2",       Pager.paginate_path(build_site, 2))
-    assert_equal("/index.html",  Pager.paginate_path(build_site({'paginate_path' => '/blog/page-:num'}), 1))
-    assert_equal("/blog/page-2", Pager.paginate_path(build_site({'paginate_path' => '/blog/page-:num'}), 2))
-    assert_equal("/index.html",  Pager.paginate_path(build_site({'paginate_path' => '/blog/page/:num'}), 1))
-    assert_equal("/blog/page/2", Pager.paginate_path(build_site({'paginate_path' => '/blog/page/:num'}), 2))
-    assert_equal("/contacts/index.html", Pager.paginate_path(build_site({'paginate_path' => '/contacts/page:num'}), 1))
-    assert_equal("/contacts/page2",      Pager.paginate_path(build_site({'paginate_path' => '/contacts/page:num'}), 2))
-    assert_equal("/contacts/index.html", Pager.paginate_path(build_site({'paginate_path' => '/contacts/page/:num'}), 1))
-    assert_equal("/contacts/page/2",     Pager.paginate_path(build_site({'paginate_path' => '/contacts/page/:num'}), 2))
+  context "with the default paginate_path" do
+    let(:site) { build_site }
+
+    it "determines the correct pagination path for each page" do
+      expect(described_class.paginate_path(site, 1)).to eql("/index.html")
+      expect(described_class.paginate_path(site, 2)).to eql("/page2")
+    end
+  end
+
+  context "with paginate_path set to a subdirectory with no index.html" do
+    let(:site) { build_site({'paginate_path' => '/blog/page-:num'}) }
+
+    it "determines the correct pagination path for each page" do
+      expect(described_class.paginate_path(site, 1)).to eql("/index.html")
+      expect(described_class.paginate_path(site, 2)).to eql("/blog/page-2")
+    end
+  end
+
+  context "with paginate_path set to a subdirectory with no index.html with num pages being in subdirectories" do
+    let(:site) { build_site({'paginate_path' => '/blog/page/:num'}) }
+
+    it "determines the correct pagination path for each page" do
+      expect(described_class.paginate_path(site, 1)).to eql("/index.html")
+      expect(described_class.paginate_path(site, 2)).to eql("/blog/page/2")
+    end
+  end
+
+  context "with paginate_path set to a subdirectory wherein an index.html exists" do
+    let(:site) { build_site({'paginate_path' => '/contacts/page:num'}) }
+
+    it "determines the correct pagination path for each page" do
+      expect(described_class.paginate_path(site, 1)).to eql("/contacts/index.html")
+      expect(described_class.paginate_path(site, 2)).to eql("/contacts/page2")
+    end
+  end
+
+  context "with paginate_path set to a subdir wherein an index.html exists with pages in subdirs" do
+    let(:site) { build_site({'paginate_path' => '/contacts/page/:num'}) }
+
+    it "determines the correct pagination path for each page" do
+      expect(described_class.paginate_path(site, 1)).to eql("/contacts/index.html")
+      expect(described_class.paginate_path(site, 2)).to eql("/contacts/page/2")
+    end
   end
 
   context "pagination disabled" do
-    should "report that pagination is disabled" do
-      assert !Pager.pagination_enabled?(build_site('paginate' => nil))
+    let(:site) { build_site('paginate' => nil) }
+
+    it "report that pagination is disabled" do
+      expect(described_class.pagination_enabled?(site)).to be_false
     end
   end
 
   context "pagination enabled for 2" do
-    setup do
-      @site  = build_site('paginate' => 2)
-      @posts = @site.posts
-    end
+    let(:site)  { build_site('paginate' => 2) }
+    let(:posts) { site.posts }
 
-    should "report that pagination is enabled" do
-      assert Pager.pagination_enabled?(@site)
+    it "report that pagination is enabled" do
+      expect(described_class.pagination_enabled?(site)).to be_true
     end
 
     context "with 4 posts" do
-      setup do
-        @posts = @site.posts[1..4] # limit to 4
+      let(:posts) { site.posts[1..4] }
+
+      it "create first pager" do
+        pager = described_class.new(site, 1, posts)
+        expect(pager.posts.size).to eql(2)
+        expect(pager.total_pages).to eql(2)
+        expect(pager.previous_page).to be_nil
+        expect(pager.next_page).to eql(2)
       end
 
-      should "create first pager" do
-        pager = Pager.new(@site, 1, @posts)
-        assert_equal(2, pager.posts.size)
-        assert_equal(2, pager.total_pages)
-        assert_nil(pager.previous_page)
-        assert_equal(2, pager.next_page)
+      it "create second pager" do
+        pager = described_class.new(site, 2, posts)
+        expect(pager.posts.size).to eql(2)
+        expect(pager.total_pages).to eql(2)
+        expect(pager.previous_page).to eql(1)
+        expect(pager.next_page).to be_nil
       end
 
-      should "create second pager" do
-        pager = Pager.new(@site, 2, @posts)
-        assert_equal(2, pager.posts.size)
-        assert_equal(2, pager.total_pages)
-        assert_equal(1, pager.previous_page)
-        assert_nil(pager.next_page)
-      end
-
-      should "not create third pager" do
-        assert_raise(RuntimeError) { Pager.new(@site, 3, @posts) }
+      it "not create third pager" do
+        expect { described_class.new(site, 3, posts) }.to raise_error
       end
 
     end
 
     context "with 5 posts" do
-      setup do
-        @posts = @site.posts[1..5] # limit to 5
+      let(:posts) { site.posts[1..5] }
+
+      it "create first pager" do
+        pager = described_class.new(site, 1, posts)
+        expect(pager.posts.size).to eql(2)
+        expect(pager.total_pages).to eql(3)
+        expect(pager.previous_page).to be_nil
+        expect(pager.next_page).to eql(2)
       end
 
-      should "create first pager" do
-        pager = Pager.new(@site, 1, @posts)
-        assert_equal(2, pager.posts.size)
-        assert_equal(3, pager.total_pages)
-        assert_nil(pager.previous_page)
-        assert_equal(2, pager.next_page)
+      it "create second pager" do
+        pager = described_class.new(site, 2, posts)
+        expect(pager.posts.size).to eql(2)
+        expect(pager.total_pages).to eql(3)
+        expect(pager.previous_page).to eql(1)
+        expect(pager.next_page).to eql(3)
       end
 
-      should "create second pager" do
-        pager = Pager.new(@site, 2, @posts)
-        assert_equal(2, pager.posts.size)
-        assert_equal(3, pager.total_pages)
-        assert_equal(1, pager.previous_page)
-        assert_equal(3, pager.next_page)
+      it "create third pager" do
+        pager = described_class.new(site, 3, posts)
+        expect(pager.posts.size).to eql(1)
+        expect(pager.total_pages).to eql(3)
+        expect(pager.previous_page).to eql(2)
+        expect(pager.next_page).to be_nil
       end
 
-      should "create third pager" do
-        pager = Pager.new(@site, 3, @posts)
-        assert_equal(1, pager.posts.size)
-        assert_equal(3, pager.total_pages)
-        assert_equal(2, pager.previous_page)
-        assert_nil(pager.next_page)
-      end
-
-      should "not create fourth pager" do
-        assert_raise(RuntimeError) { Pager.new(@site, 4, @posts) }
+      it "not create fourth pager" do
+        expect { described_class.new(site, 4, posts) }.to raise_error(RuntimeError)
       end
 
     end
