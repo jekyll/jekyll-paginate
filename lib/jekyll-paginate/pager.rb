@@ -62,7 +62,7 @@ module Jekyll
       # Returns the pagination path as a string
       def self.paginate_path(site, num_page)
         return nil if num_page.nil?
-        return Generators::Pagination.first_page_url(site) if num_page <= 1
+        return Pagination.first_page_url(site) if num_page <= 1
         format = site.config['paginate_path']
         format = format.sub(':num', num_page.to_s)
         ensure_leading_slash(format)
