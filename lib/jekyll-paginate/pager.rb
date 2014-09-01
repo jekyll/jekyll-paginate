@@ -64,6 +64,9 @@ module Jekyll
         return nil if num_page.nil?
         return Pagination.first_page_url(site) if num_page <= 1
         format = site.config['paginate_path']
+        unless /^\/*([[:word:]]+\/*)+[[:word:]]+\/*\-*:num/ =~ format
+          raise RuntimeError, 'paginate_path in config file is not valid'  
+        end  
         format = format.sub(':num', num_page.to_s)
         ensure_leading_slash(format)
       end

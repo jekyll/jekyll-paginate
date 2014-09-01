@@ -56,6 +56,12 @@ describe(Jekyll::Paginate::Pager) do
     end
   end
 
+  context "with specific characters in paginate_path" do
+    it "can't parse with colons" do
+      expect { build_site('paginate' => 2, 'paginate_path' => ':blog/page:num')}.to raise_error(RuntimeError, 'paginate_path in config file is not valid')
+    end  
+  end
+
   context "pagination disabled" do
     let(:site) { build_site('paginate' => nil) }
 
