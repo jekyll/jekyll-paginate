@@ -60,7 +60,7 @@ describe(Jekyll::Paginate::Pager) do
     let(:site) { build_site('paginate' => nil) }
 
     it "report that pagination is disabled" do
-      expect(described_class.pagination_enabled?(site)).to be_false
+      expect(described_class.pagination_enabled?(site)).to be_falsey
     end
   end
 
@@ -69,7 +69,7 @@ describe(Jekyll::Paginate::Pager) do
     let(:posts) { site.posts }
 
     it "report that pagination is enabled" do
-      expect(described_class.pagination_enabled?(site)).to be_true
+      expect(described_class.pagination_enabled?(site)).to be_truthy
     end
 
     context "with 4 posts" do
