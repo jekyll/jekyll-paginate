@@ -18,9 +18,13 @@ Or install it yourself as:
 
     $ gem install jekyll-paginate
 
-## Usage
-
 Once the gem is installed on your system, Jekyll will auto-require it. Just set the following configuration
+
+## Optional settings
+
+Paginate only one category (for home page, other use-cases). Add to `_config.yml`:
+
+    paginate_category: "blog"
 
 ## Contributing
 
