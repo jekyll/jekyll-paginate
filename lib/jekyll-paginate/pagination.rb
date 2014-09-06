@@ -38,7 +38,12 @@ module Jekyll
       #                   "previous_page" => <Number>,
       #                   "next_page" => <Number> }}
       def paginate(site, page)
-        all_posts = site.site_payload['site']['posts']
+        if site.config['paginate_category'].nil? || site.config['paginate_category'].empty?
+          all_posts = site.site_payload['site']['posts']
+        else
+          selected_category = site.config['paginate_category']
+          all_posts = site.site_payload['site']['categories'][selected_category]
+        end
         pages = Pager.calculate_pages(all_posts, site.config['paginate'].to_i)
         (1..pages).each do |num_page|
           pager = Pager.new(site, num_page, all_posts, pages)
