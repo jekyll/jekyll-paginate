@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe(Jekyll::Paginate::Pager) do
+RSpec.describe(Jekyll::Paginate::Pager) do
 
   it "calculate number of pages" do
     expect(described_class.calculate_pages([], '2')).to eql(0)
