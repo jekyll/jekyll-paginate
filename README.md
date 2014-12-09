@@ -20,7 +20,10 @@ Or install it yourself as:
 
 ## Usage
 
-Once the gem is installed on your system, Jekyll will auto-require it. Just set the following configuration
+Once the gem is installed on your system, Jekyll will auto-require it. Just add the following to your _config.yml:
+
+  gems:
+    - jekyll-paginate
 
 ## Contributing
 
