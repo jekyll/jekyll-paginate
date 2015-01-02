@@ -1,3 +1,9 @@
+## HEAD
+
+### Development Fixes
+
+  * Upgrade to the new Travis build environment and use their built-in caching (#20)
+
 ## 1.1.0 / 2014-10-14
 
 ### Minor Enhancements
