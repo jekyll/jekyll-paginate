@@ -64,7 +64,11 @@ module Jekyll
         return nil if num_page.nil?
         return Pagination.first_page_url(site) if num_page <= 1
         format = site.config['paginate_path']
-        format = format.sub(':num', num_page.to_s)
+        if format.include?(":num")
+          format = format.sub(':num', num_page.to_s)
+        else
+          raise ArgumentError.new("Invalid pagination path: '#{format}'. It must include ':num'.")
+        end
         ensure_leading_slash(format)
       end
 

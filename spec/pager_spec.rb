@@ -56,6 +56,14 @@ RSpec.describe(Jekyll::Paginate::Pager) do
     end
   end
 
+  context "with an paginate_path devoid of :num" do
+    let(:site) { build_site({'paginate_path' => '/blog/page'}) }
+
+    it "determines the correct pagination path for each page" do
+      expect(-> { described_class.paginate_path(site, 1) }).to raise_error
+    end
+  end
+
   context "pagination disabled" do
     let(:site) { build_site('paginate' => nil) }
 
