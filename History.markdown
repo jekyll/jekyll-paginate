@@ -1,5 +1,9 @@
 ## HEAD
 
+### Minor Enhancements
+
+  * Throw an error if the pagination path doesn't contain `:num`. (#19)
+
 ### Development Fixes
 
   * Upgrade to the new Travis build environment and use their built-in caching (#20)
