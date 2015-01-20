@@ -107,7 +107,7 @@ module Jekyll
       # site - the Jekyll::Site object
       # post - a Jekyll::Post  object
       #
-      # Returns bolean true if excluded - false if not
+      # Returns boolean true if excluded - false if not
       def excluded?(site, post)
         post.categories.each do |c|
           if site.config['not_paginated_categories'].index(c)
