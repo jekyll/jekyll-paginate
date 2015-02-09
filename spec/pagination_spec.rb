@@ -20,5 +20,11 @@ RSpec.describe(Jekyll::Paginate::Pagination) do
       rewrite_index("permalink: /")
       expect(site.pages.select {|page| page.url == "/"}.length).to eql(1)
     end
+
+    it "paginated pages should be generated from index file given parmalink not matched to source" do
+      rewrite_index("permalink: /posts/")
+      site
+      expect(File.read(File.join(dest_dir('page2'), 'index.html'))).to eql("body")
+    end
   end
 end

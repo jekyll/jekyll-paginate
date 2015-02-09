@@ -43,7 +43,7 @@ module Jekyll
         (1..pages).each do |num_page|
           pager = Pager.new(site, num_page, all_posts, pages)
           if num_page > 1
-            newpage = Page.new(site, site.source, page.dir, page.name)
+            newpage = Page.new(site, site.source, source_to_file_path(page), page.name)
             newpage.data.delete('permalink')
             newpage.pager = pager
             newpage.dir = Pager.paginate_path(site, num_page)
@@ -79,6 +79,11 @@ module Jekyll
         end.sort do |one, two|
           two.path.size <=> one.path.size
         end.first
+      end
+
+      private
+      def source_to_file_path(page)
+        page.url_placeholders[:path] # meant to use page.instance_variable_get('@dir')
       end
 
     end
