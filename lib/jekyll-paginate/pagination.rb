@@ -44,6 +44,7 @@ module Jekyll
           pager = Pager.new(site, num_page, all_posts, pages)
           if num_page > 1
             newpage = Page.new(site, site.source, page.dir, page.name)
+            newpage.data.delete('permalink')
             newpage.pager = pager
             newpage.dir = Pager.paginate_path(site, num_page)
             site.pages << newpage
