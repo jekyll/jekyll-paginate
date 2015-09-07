@@ -38,7 +38,7 @@ module Jekyll
       #                   "previous_page" => <Number>,
       #                   "next_page" => <Number> }}
       def paginate(site, page)
-        all_posts = sort_by_modified.reject { |post| post['hidden'] }
+        all_posts = sort_posts_by_modified.reject { |post| post['hidden'] }
         pages = Pager.calculate_pages(all_posts, site.config['paginate'].to_i)
         (1..pages).each do |num_page|
           pager = Pager.new(site, num_page, all_posts, pages)
@@ -54,7 +54,7 @@ module Jekyll
       end
 
       # sort the posts by modified date if site has the *sort_by_modified* config
-      def sort_by_modified
+      def sort_posts_by_modified
         if site.config['sort_by_modified']
           all_posts = site.site_payload['site']['posts'].sort { |a, b| b.modified <=> a.modified }
         else
