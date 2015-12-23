@@ -38,7 +38,7 @@ module Jekyll
       #                   "previous_page" => <Number>,
       #                   "next_page" => <Number> }}
       def paginate(site, page)
-        all_posts = site.site_payload['site']['posts'].reject { |post| post['hidden'] }
+        all_posts = site.site_payload['site']['posts'].reject { |post| post['hidden'] || !in_category(site, post) }
         pages = Pager.calculate_pages(all_posts, site.config['paginate'].to_i)
         (1..pages).each do |num_page|
           pager = Pager.new(site, num_page, all_posts, pages)
@@ -52,7 +52,20 @@ module Jekyll
           end
         end
       end
-
+      
+      # checks if post is in 'paginate_category' directory
+      #
+      # _config.yml
+      # paginate_category: blog
+      def in_category?(site, post)
+				if category = site.config['paginate_category']
+					path = Pathname.new(post.relative_path).parent.to_s
+					path.eql?("#{category}/_posts")
+				else
+					true
+				end
+			end
+      
       # Static: Fetch the URL of the template page. Used to determine the
       #         path to the first pager in the series.
       #
