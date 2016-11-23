@@ -5,7 +5,15 @@ module Jekyll
       safe true
 
       # This generator should be passive with regard to its execution
-      priority :lowest
+      priority :low
+
+      DEFAULT_CONFIGURATION = {
+        'posts' => {
+          'per_page' => 10,
+          'template' => 'index.html',
+          'permalink' => '/page:num'
+        }
+      }
 
       # Generate paginated pages if necessary.
       #
@@ -13,13 +21,54 @@ module Jekyll
       #
       # Returns nothing.
       def generate(site)
-        if Pager.pagination_enabled?(site)
-          if template = self.class.template_page(site)
-            paginate(site, template)
-          else
+        if pagination_enabled?(site)
+          paginators(site).each do |paginator|
+            paginator.paginate
+          end
             Jekyll.logger.warn "Pagination:", "Pagination is enabled, but I couldn't find " +
             "an index.html page to use as the pagination template. Skipping pagination."
-          end
+        end
+      end
+
+      # Upgrade the configuration from the old to the new.
+      #
+      # config - the configuration Hash to upgrade
+      #
+      # Example:
+      #   paginate: 1
+      #   paginate_path: /blog/:num
+      #
+      #     ... becomes:
+      #
+      #   pagination:
+      #     posts:
+      #       per_page: 1
+      #       permalink:
+      def with_upgraded_configuration(config)
+        if config['paginate']
+          Jekyll.logger.warn "Deprecation:", "The 'paginate' configuration is no longer used."
+          config['pagination'] ||= {}
+          config['pagination']['posts'] ||= {}
+          config['pagination']['posts']['per_page'] ||= config.delete('paginate')
+          config['pagination']['posts']['permalink'] ||= config.delete('paginate_path')
+          config['pagination']['posts']['template'] ||= config.delete('paginate_path') !!!
+        elsif config['pagination']
+          config['pagination'] = Jekyll::Utils.deep_merge_hashes(
+            DEFAULT_CONFIGURATION,
+            config['pagination']
+          )
+        end
+        config
+      end
+
+      def pagination_enabled?(site)
+        site.config['paginate'] || site.config['pagination']
+      end
+
+      def paginators(site)
+        payload = site.site_payload
+        site.config['pagination'].map do |type, config|
+          Paginator.new(type, config, payload, site)
         end
       end
 
