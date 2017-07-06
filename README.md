@@ -20,11 +20,6 @@ Or install it yourself as:
 
 ## Usage
 
----
-title: Pagination
-permalink: /docs/pagination/
----
-
 With many websites &mdash; especially blogs &mdash; it’s very common to
 break the main listing of posts up into smaller lists and display them over
 multiple pages. Jekyll offers a pagination plugin, so you can automatically
@@ -76,6 +71,31 @@ directory.
     pagination to break. Just omit the permalink.
   </p>
 </div>
+
+
+### Enable pagination for multiple pages
+If you have a need to have pagination in multiple pages like:
+
+You have a blog page where you are trying to display a paginated list of blog-posts. And, underneath every post title 
+you would like to show article-excerpt(summary from first paragraph normally). You also felt that this could be more 
+verbose so you though to have a more slimmer version of post-list; where there will be only post-title and 
+published/updated date.
+
+In short you want to have two versions/templates for pagination. This is how you can achieve:-  
+```yaml
+  # in _config.yml
+  
+  paginate:         2 # default for all below; will be overridden by `per_page` value
+  pagination: 
+    - paginate:
+        path:       /blog/page:num/
+        per_page:   2
+    - paginate:
+        path:       /slim/page:num/
+        per_page:   1
+```
+#### Example:
+[Example Repo:](https://github.com/shivabhusal/shivabhusal.github.io/blob/master/_config.yml)
 
 ## Liquid Attributes Available
 

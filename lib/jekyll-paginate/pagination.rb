@@ -8,28 +8,46 @@ module Jekyll
       priority :lowest
 
       # Generate paginated pages if necessary.
-      #
+      # Handles pagination for multiple pages
       # site - The Site.
       #
       # Returns nothing.
       def generate(site)
         if Pager.pagination_enabled?(site)
-          site.config['paginate_path'] = [site.config['paginate_path']].flatten
-          # require "pry"; binding.pry
+          multiple_pagination = site.config['pagination']
 
-          site.config['paginate_path'].each do |paginate_path|
-            site.config['paginate_path'] = paginate_path
-            if template = self.class.template_page(site)
-              paginate(site, template)
-            else
-              Jekyll.logger.warn "Pagination:", "Pagination is enabled, but I couldn't find " +
-              "an index.html page to use as the pagination template. Skipping pagination."
+          if multiple_pagination
+            multiple_pagination.each do | config |
+              paginate = config['paginate']
+              per_page = paginate && (paginate['per_page'] || site.config['paginate'])
+
+              site.config['paginate_path'] = paginate['path']
+              site.config['paginate']      = per_page if per_page
+
+              handle_pagination(site) if per_page || site.config['paginate']
             end
+          else
+            handle_pagination(site)
           end
-
         end
       end
-
+      
+      # Generate paginated pages if necessary.
+      #
+      # site - The Site.
+      #
+      # Returns nothing.
+      def handle_pagination(site)
+        if template = self.class.template_page(site)
+          paginate(site, template)
+        else
+          Jekyll.logger.warn "Pagination:", "Pagination is enabled, but I couldn't find " +
+          "an index.html page to use as the pagination template. Skipping pagination."
+        end
+      end
+      
+      private :handle_pagination
+      
       # Paginates the blog's posts. Renders the index.html file into paginated
       # directories, e.g.: page2/index.html, page3/index.html, etc and adds more
       # site-wide data.
