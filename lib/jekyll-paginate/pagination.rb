@@ -14,12 +14,19 @@ module Jekyll
       # Returns nothing.
       def generate(site)
         if Pager.pagination_enabled?(site)
-          if template = self.class.template_page(site)
-            paginate(site, template)
-          else
-            Jekyll.logger.warn "Pagination:", "Pagination is enabled, but I couldn't find " +
-            "an index.html page to use as the pagination template. Skipping pagination."
+          site.config['paginate_path'] = [site.config['paginate_path']].flatten
+          # require "pry"; binding.pry
+
+          site.config['paginate_path'].each do |paginate_path|
+            site.config['paginate_path'] = paginate_path
+            if template = self.class.template_page(site)
+              paginate(site, template)
+            else
+              Jekyll.logger.warn "Pagination:", "Pagination is enabled, but I couldn't find " +
+              "an index.html page to use as the pagination template. Skipping pagination."
+            end
           end
+
         end
       end
 
