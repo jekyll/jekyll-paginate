@@ -32,6 +32,33 @@ module TestMethods
     site.process
     site
   end
+
+  def pagination_contains_hidden_post?(site)
+    site.pages.each do |p|
+      if !p.pager.nil?
+        p.pager.posts.each do |post|
+          if !post.data['hidden'].nil? && post.data['hidden'] === true
+            return true
+          end
+        end
+      end
+    end
+    return false
+  end
+
+  def pagination_contains_category_post?(site, category)
+    site.pages.each do |p|
+      if !p.pager.nil?
+        p.pager.posts.each do |post|
+          if !post['categories'].nil? && post['categories'].index(category)
+            return true
+          end
+        end
+      end
+    end
+    return false
+  end
+
 end
 
 RSpec.configure do |config|
