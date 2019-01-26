@@ -20,7 +20,7 @@ module Jekyll
       #
       # Returns true if pagination is enabled, false otherwise.
       def self.pagination_enabled?(site)
-       !site.config['paginate'].nil? &&
+       (site.config['paginate'] || site.config['pagination']) &&
          site.pages.size > 0
       end
 
