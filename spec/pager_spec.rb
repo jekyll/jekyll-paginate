@@ -93,7 +93,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
     let(:site) { build_site('paginate' => nil) }
 
     it "report that pagination is disabled" do
-      expect(described_class.pagination_enabled?(site)).to be_falsey
+      expect(described_class.pagination_enabled?(site)).to be_false
     end
   end
 
@@ -106,7 +106,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
     end
 
     it "report that pagination is enabled" do
-      expect(described_class.pagination_enabled?(site)).to be_truthy
+      expect(described_class.pagination_enabled?(site)).to be_true
     end
   
     context "with 4 posts" do
