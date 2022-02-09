@@ -52,6 +52,7 @@ module Jekyll
       def self.in_hierarchy(source, page_dir, paginate_path)
         return false if paginate_path == File.dirname(paginate_path)
         return false if paginate_path == Pathname.new(source).parent
+
         page_dir == paginate_path ||
           in_hierarchy(source, page_dir, File.dirname(paginate_path))
       end
@@ -65,6 +66,7 @@ module Jekyll
       def self.paginate_path(site, num_page)
         return nil if num_page.nil?
         return Pagination.first_page_url(site) if num_page <= 1
+
         format = site.config["paginate_path"]
         if format.include?(":num")
           format = format.sub(":num", num_page.to_s)
