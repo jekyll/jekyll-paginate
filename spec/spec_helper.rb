@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'jekyll'
 require File.expand_path("../lib/jekyll-paginate", File.dirname(__FILE__))
 
