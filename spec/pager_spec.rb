@@ -6,10 +6,10 @@ RSpec.describe(Jekyll::Paginate::Pager) do
   it "calculate number of pages" do
     expect(described_class.calculate_pages([], "2")).to eql(0)
     expect(described_class.calculate_pages([1], "2")).to eql(1)
-    expect(described_class.calculate_pages([1,2], "2")).to eql(1)
-    expect(described_class.calculate_pages([1,2,3], "2")).to eql(2)
-    expect(described_class.calculate_pages([1,2,3,4], "2")).to eql(2)
-    expect(described_class.calculate_pages([1,2,3,4,5], "2")).to eql(3)
+    expect(described_class.calculate_pages([1, 2], "2")).to eql(1)
+    expect(described_class.calculate_pages([1, 2, 3], "2")).to eql(2)
+    expect(described_class.calculate_pages([1, 2, 3, 4], "2")).to eql(2)
+    expect(described_class.calculate_pages([1, 2, 3, 4, 5], "2")).to eql(3)
   end
 
   context "with the default paginate_path" do
