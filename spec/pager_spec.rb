@@ -28,7 +28,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
   end
 
   context "with paginate_path set to a subdirectory with no index.html" do
-    let(:site) { build_site({"paginate_path" => "/blog/page-:num"}) }
+    let(:site) { build_site({ "paginate_path" => "/blog/page-:num" }) }
 
     it "determines the correct pagination path for each page" do
       if Jekyll::VERSION < "3.0.0"
@@ -42,7 +42,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
   end
 
   context "with paginate_path set to a subdirectory with no index.html with num pages being in subdirectories" do
-    let(:site) { build_site({"paginate_path" => "/blog/page/:num"}) }
+    let(:site) { build_site({ "paginate_path" => "/blog/page/:num" }) }
 
     it "determines the correct pagination path for each page" do
       if Jekyll::VERSION < "3.0.0"
@@ -56,7 +56,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
   end
 
   context "with paginate_path set to a subdirectory wherein an index.html exists" do
-    let(:site) { build_site({"paginate_path" => "/contacts/page:num"}) }
+    let(:site) { build_site({ "paginate_path" => "/contacts/page:num" }) }
 
     it "determines the correct pagination path for each page" do
       if Jekyll::VERSION < "3.0.0"
@@ -70,7 +70,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
   end
 
   context "with paginate_path set to a subdir wherein an index.html exists with pages in subdirs" do
-    let(:site) { build_site({"paginate_path" => "/contacts/page/:num"}) }
+    let(:site) { build_site({ "paginate_path" => "/contacts/page/:num" }) }
 
     it "determines the correct pagination path for each page" do
       if Jekyll::VERSION < "3.0.0"
@@ -84,7 +84,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
   end
 
   context "with an paginate_path devoid of :num" do
-    let(:site) { build_site({"paginate_path" => "/blog/page"}) }
+    let(:site) { build_site({ "paginate_path" => "/blog/page" }) }
 
     it "determines the correct pagination path for each page" do
       expect(-> { described_class.paginate_path(site, 1) }).to raise_error
