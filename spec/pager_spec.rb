@@ -110,14 +110,14 @@ RSpec.describe(Jekyll::Paginate::Pager) do
     it "report that pagination is enabled" do
       expect(described_class.pagination_enabled?(site)).to be_truthy
     end
-  
+
     context "with 4 posts" do
       if Jekyll::VERSION < "3.0.0"
         let(:posts) { site.posts[1..4] }
       else
         let(:posts) { site.posts.docs[1..4] }
       end
-  
+
       it "create first pager" do
         pager = described_class.new(site, 1, posts)
         expect(pager.posts.size).to eql(2)
@@ -125,7 +125,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
         expect(pager.previous_page).to be_nil
         expect(pager.next_page).to eql(2)
       end
-  
+
       it "create second pager" do
         pager = described_class.new(site, 2, posts)
         expect(pager.posts.size).to eql(2)
@@ -133,7 +133,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
         expect(pager.previous_page).to eql(1)
         expect(pager.next_page).to be_nil
       end
-  
+
       it "not create third pager" do
         expect { described_class.new(site, 3, posts) }.to raise_error
       end
@@ -145,7 +145,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
       else
         let(:posts) { site.posts.docs[1..5] }
       end
-  
+
       it "create first pager" do
         pager = described_class.new(site, 1, posts)
         expect(pager.posts.size).to eql(2)
@@ -153,7 +153,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
         expect(pager.previous_page).to be_nil
         expect(pager.next_page).to eql(2)
       end
-  
+
       it "create second pager" do
         pager = described_class.new(site, 2, posts)
         expect(pager.posts.size).to eql(2)
@@ -161,7 +161,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
         expect(pager.previous_page).to eql(1)
         expect(pager.next_page).to eql(3)
       end
-  
+
       it "create third pager" do
         pager = described_class.new(site, 3, posts)
         expect(pager.posts.size).to eql(1)
@@ -169,7 +169,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
         expect(pager.previous_page).to eql(2)
         expect(pager.next_page).to be_nil
       end
-  
+
       it "not create fourth pager" do
         expect { described_class.new(site, 4, posts) }.to raise_error(RuntimeError)
       end
