@@ -81,7 +81,6 @@ module Jekyll
           two.path.size <=> one.path.size
         end.first
       end
-
     end
   end
 end

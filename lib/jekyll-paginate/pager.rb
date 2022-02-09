@@ -139,7 +139,6 @@ module Jekyll
           "next_page_path"     => next_page_path
         }
       end
-
     end
   end
 end
