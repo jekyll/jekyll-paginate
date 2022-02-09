@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Jekyll
   module Paginate
     VERSION = "1.1.0"

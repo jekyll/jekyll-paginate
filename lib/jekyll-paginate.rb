@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "jekyll-paginate/version"
 require "jekyll-paginate/pager"
 require "jekyll-paginate/pagination"
