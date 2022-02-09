@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe(Jekyll::Paginate::Pager) do
 
   it "calculate number of pages" do
-    expect(described_class.calculate_pages([], '2')).to eql(0)
-    expect(described_class.calculate_pages([1], '2')).to eql(1)
-    expect(described_class.calculate_pages([1,2], '2')).to eql(1)
-    expect(described_class.calculate_pages([1,2,3], '2')).to eql(2)
-    expect(described_class.calculate_pages([1,2,3,4], '2')).to eql(2)
-    expect(described_class.calculate_pages([1,2,3,4,5], '2')).to eql(3)
+    expect(described_class.calculate_pages([], "2")).to eql(0)
+    expect(described_class.calculate_pages([1], "2")).to eql(1)
+    expect(described_class.calculate_pages([1,2], "2")).to eql(1)
+    expect(described_class.calculate_pages([1,2,3], "2")).to eql(2)
+    expect(described_class.calculate_pages([1,2,3,4], "2")).to eql(2)
+    expect(described_class.calculate_pages([1,2,3,4,5], "2")).to eql(3)
   end
 
   context "with the default paginate_path" do
     let(:site) { build_site }
 
     it "determines the correct pagination path for each page" do
-      if Jekyll::VERSION < '3.0.0'
+      if Jekyll::VERSION < "3.0.0"
         expect(described_class.paginate_path(site, 1)).to eql("/index.html")
       else
         expect(described_class.paginate_path(site, 1)).to eql("/")
@@ -28,10 +28,10 @@ RSpec.describe(Jekyll::Paginate::Pager) do
   end
 
   context "with paginate_path set to a subdirectory with no index.html" do
-    let(:site) { build_site({'paginate_path' => '/blog/page-:num'}) }
+    let(:site) { build_site({"paginate_path" => "/blog/page-:num"}) }
 
     it "determines the correct pagination path for each page" do
-      if Jekyll::VERSION < '3.0.0'
+      if Jekyll::VERSION < "3.0.0"
         expect(described_class.paginate_path(site, 1)).to eql("/index.html")
       else
         expect(described_class.paginate_path(site, 1)).to eql("/")
@@ -42,10 +42,10 @@ RSpec.describe(Jekyll::Paginate::Pager) do
   end
 
   context "with paginate_path set to a subdirectory with no index.html with num pages being in subdirectories" do
-    let(:site) { build_site({'paginate_path' => '/blog/page/:num'}) }
+    let(:site) { build_site({"paginate_path" => "/blog/page/:num"}) }
 
     it "determines the correct pagination path for each page" do
-      if Jekyll::VERSION < '3.0.0'
+      if Jekyll::VERSION < "3.0.0"
         expect(described_class.paginate_path(site, 1)).to eql("/index.html")
       else
         expect(described_class.paginate_path(site, 1)).to eql("/")
@@ -56,10 +56,10 @@ RSpec.describe(Jekyll::Paginate::Pager) do
   end
 
   context "with paginate_path set to a subdirectory wherein an index.html exists" do
-    let(:site) { build_site({'paginate_path' => '/contacts/page:num'}) }
+    let(:site) { build_site({"paginate_path" => "/contacts/page:num"}) }
 
     it "determines the correct pagination path for each page" do
-      if Jekyll::VERSION < '3.0.0'
+      if Jekyll::VERSION < "3.0.0"
         expect(described_class.paginate_path(site, 1)).to eql("/contacts/index.html")
       else
         expect(described_class.paginate_path(site, 1)).to eql("/contacts/")
@@ -70,10 +70,10 @@ RSpec.describe(Jekyll::Paginate::Pager) do
   end
 
   context "with paginate_path set to a subdir wherein an index.html exists with pages in subdirs" do
-    let(:site) { build_site({'paginate_path' => '/contacts/page/:num'}) }
+    let(:site) { build_site({"paginate_path" => "/contacts/page/:num"}) }
 
     it "determines the correct pagination path for each page" do
-      if Jekyll::VERSION < '3.0.0'
+      if Jekyll::VERSION < "3.0.0"
         expect(described_class.paginate_path(site, 1)).to eql("/contacts/index.html")
       else
         expect(described_class.paginate_path(site, 1)).to eql("/contacts/")
@@ -84,7 +84,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
   end
 
   context "with an paginate_path devoid of :num" do
-    let(:site) { build_site({'paginate_path' => '/blog/page'}) }
+    let(:site) { build_site({"paginate_path" => "/blog/page"}) }
 
     it "determines the correct pagination path for each page" do
       expect(-> { described_class.paginate_path(site, 1) }).to raise_error
@@ -92,7 +92,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
   end
 
   context "pagination disabled" do
-    let(:site) { build_site('paginate' => nil) }
+    let(:site) { build_site("paginate" => nil) }
 
     it "report that pagination is disabled" do
       expect(described_class.pagination_enabled?(site)).to be_falsey
@@ -100,8 +100,8 @@ RSpec.describe(Jekyll::Paginate::Pager) do
   end
 
   context "pagination enabled for 2" do
-    let(:site)  { build_site('paginate' => 2) }
-    if Jekyll::VERSION < '3.0.0'
+    let(:site)  { build_site("paginate" => 2) }
+    if Jekyll::VERSION < "3.0.0"
       let(:posts) { site.posts }
     else
       let(:posts) { site.posts.docs }
@@ -112,7 +112,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
     end
   
     context "with 4 posts" do
-      if Jekyll::VERSION < '3.0.0'
+      if Jekyll::VERSION < "3.0.0"
         let(:posts) { site.posts[1..4] }
       else
         let(:posts) { site.posts.docs[1..4] }
@@ -140,7 +140,7 @@ RSpec.describe(Jekyll::Paginate::Pager) do
     end
 
     context "with 5 posts" do
-      if Jekyll::VERSION < '3.0.0'
+      if Jekyll::VERSION < "3.0.0"
         let(:posts) { site.posts[1..5] }
       else
         let(:posts) { site.posts.docs[1..5] }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'jekyll'
+require "jekyll"
 require File.expand_path("../lib/jekyll-paginate", File.dirname(__FILE__))
 
 module TestMethods
@@ -9,11 +9,11 @@ module TestMethods
   end
 
   def dest_dir(*subdirs)
-    test_dir('dest', *subdirs)
+    test_dir("dest", *subdirs)
   end
 
   def source_dir(*subdirs)
-    test_dir('source', *subdirs)
+    test_dir("source", *subdirs)
   end
 
   def build_configs(overrides, base_hash = Jekyll::Configuration::DEFAULTS)
@@ -75,7 +75,7 @@ RSpec.configure do |config|
     # Use the documentation formatter for detailed output,
     # unless a formatter has already been configured
     # (e.g. via a command-line flag).
-    config.default_formatter = 'doc'
+    config.default_formatter = "doc"
   end
 
   # Print the 10 slowest examples and example groups at the

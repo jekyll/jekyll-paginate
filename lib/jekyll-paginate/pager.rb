@@ -22,7 +22,7 @@ module Jekyll
       #
       # Returns true if pagination is enabled, false otherwise.
       def self.pagination_enabled?(site)
-       !site.config['paginate'].nil? &&
+       !site.config["paginate"].nil? &&
          site.pages.size > 0
       end
 
@@ -35,11 +35,11 @@ module Jekyll
       #
       # Returns true if the
       def self.pagination_candidate?(config, page)
-        page_dir = File.dirname(File.expand_path(remove_leading_slash(page.path), config['source']))
-        paginate_path = remove_leading_slash(config['paginate_path'])
-        paginate_path = File.expand_path(paginate_path, config['source'])
-        page.name == 'index.html' &&
-          in_hierarchy(config['source'], page_dir, File.dirname(paginate_path))
+        page_dir = File.dirname(File.expand_path(remove_leading_slash(page.path), config["source"]))
+        paginate_path = remove_leading_slash(config["paginate_path"])
+        paginate_path = File.expand_path(paginate_path, config["source"])
+        page.name == "index.html" &&
+          in_hierarchy(config["source"], page_dir, File.dirname(paginate_path))
       end
 
       # Determine if the subdirectories of the two paths are the same relative to source
@@ -65,9 +65,9 @@ module Jekyll
       def self.paginate_path(site, num_page)
         return nil if num_page.nil?
         return Pagination.first_page_url(site) if num_page <= 1
-        format = site.config['paginate_path']
+        format = site.config["paginate_path"]
         if format.include?(":num")
-          format = format.sub(':num', num_page.to_s)
+          format = format.sub(":num", num_page.to_s)
         else
           raise ArgumentError.new("Invalid pagination path: '#{format}'. It must include ':num'.")
         end
@@ -103,7 +103,7 @@ module Jekyll
       #             of pages calculated.
       def initialize(site, page, all_posts, num_pages = nil)
         @page = page
-        @per_page = site.config['paginate'].to_i
+        @per_page = site.config["paginate"].to_i
         @total_pages = num_pages || Pager.calculate_pages(all_posts, @per_page)
 
         if @page > @total_pages
@@ -126,15 +126,15 @@ module Jekyll
       # Returns the Hash representation of this Pager.
       def to_liquid
         {
-          'page' => page,
-          'per_page' => per_page,
-          'posts' => posts,
-          'total_posts' => total_posts,
-          'total_pages' => total_pages,
-          'previous_page' => previous_page,
-          'previous_page_path' => previous_page_path,
-          'next_page' => next_page,
-          'next_page_path' => next_page_path
+          "page" => page,
+          "per_page" => per_page,
+          "posts" => posts,
+          "total_posts" => total_posts,
+          "total_pages" => total_pages,
+          "previous_page" => previous_page,
+          "previous_page_path" => previous_page_path,
+          "next_page" => next_page,
+          "next_page_path" => next_page_path
         }
       end
 
