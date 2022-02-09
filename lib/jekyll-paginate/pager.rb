@@ -126,15 +126,15 @@ module Jekyll
       # Returns the Hash representation of this Pager.
       def to_liquid
         {
-          "page" => page,
-          "per_page" => per_page,
-          "posts" => posts,
-          "total_posts" => total_posts,
-          "total_pages" => total_pages,
-          "previous_page" => previous_page,
+          "page"               => page,
+          "per_page"           => per_page,
+          "posts"              => posts,
+          "total_posts"        => total_posts,
+          "total_pages"        => total_pages,
+          "previous_page"      => previous_page,
           "previous_page_path" => previous_page_path,
-          "next_page" => next_page,
-          "next_page_path" => next_page_path
+          "next_page"          => next_page,
+          "next_page_path"     => next_page_path
         }
       end
 
