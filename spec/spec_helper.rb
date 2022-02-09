@@ -23,7 +23,7 @@ module TestMethods
   def site_configuration(overrides = {})
     build_configs({
       "source"      => source_dir,
-      "destination" => dest_dir
+      "destination" => dest_dir,
     }, build_configs(overrides))
   end
 

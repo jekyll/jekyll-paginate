@@ -136,7 +136,7 @@ module Jekyll
           "previous_page"      => previous_page,
           "previous_page_path" => previous_page_path,
           "next_page"          => next_page,
-          "next_page_path"     => next_page_path
+          "next_page_path"     => next_page_path,
         }
       end
     end
