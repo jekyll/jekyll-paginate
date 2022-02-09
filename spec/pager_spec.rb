@@ -3,7 +3,6 @@
 require "spec_helper"
 
 RSpec.describe(Jekyll::Paginate::Pager) do
-
   it "calculate number of pages" do
     expect(described_class.calculate_pages([], "2")).to eql(0)
     expect(described_class.calculate_pages([1], "2")).to eql(1)
@@ -173,8 +172,6 @@ RSpec.describe(Jekyll::Paginate::Pager) do
       it "not create fourth pager" do
         expect { described_class.new(site, 4, posts) }.to raise_error(RuntimeError)
       end
-
     end
   end
-
 end
