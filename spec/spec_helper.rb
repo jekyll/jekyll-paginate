@@ -30,7 +30,7 @@ module TestMethods
   def build_site(config = {})
     site = Jekyll::Site.new(site_configuration(
                               { "paginate" => 1 }.merge(config)
-    ))
+                            ))
     site.process
     site
   end
