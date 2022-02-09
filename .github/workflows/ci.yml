@@ -59,7 +59,7 @@ jobs:
           ruby-version: ${{ matrix.ruby_version }}
           bundler-cache: true
       - name: Execute tests
-        run:  bundle exec rspec
+        run:  'bundle exec rspec && true'
 
   style_check:
     if: "!contains(github.event.commits[0].message, '[ci skip]')"
