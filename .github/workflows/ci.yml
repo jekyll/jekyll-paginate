@@ -101,4 +101,4 @@ jobs:
           ruby-version: ${{ matrix.ruby_version }}
           bundler-cache: true
       - name: Test Gem build
-        run:  bundle exec gem build jekyll-seo-tag.gemspec
+        run:  bundle exec gem build jekyll-paginate.gemspec
