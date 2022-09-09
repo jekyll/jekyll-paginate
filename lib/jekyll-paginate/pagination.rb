@@ -43,10 +43,7 @@ module Jekyll
         (1..pages).each do |num_page|
           pager = Pager.new(site, num_page, all_posts, pages)
           if num_page > 1
-            newpage = Page.new(site, site.source, page.dir, page.name)
-            newpage.pager = pager
-            newpage.dir = Pager.paginate_path(site, num_page)
-            site.pages << newpage
+            site.pages << build_paginated_page(site, page, pager)
           else
             page.pager = pager
           end
@@ -78,6 +75,18 @@ module Jekyll
         end.sort do |one, two|
           two.path.size <=> one.path.size
         end.first
+      end
+
+      private
+      def build_paginated_page(site, page, pager)
+        page = Page.new(site, site.source, relative_dir_to_source_file(page), page.name)
+        page.data.delete('permalink')
+        page.pager = pager
+        page.dir = Pager.paginate_path(site, pager.page)
+        page
+      end
+      def relative_dir_to_source_file(page)
+        File.dirname(page.relative_path)
       end
 
     end
