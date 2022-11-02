@@ -36,8 +36,13 @@ module Jekyll
         page_dir = File.dirname(File.expand_path(remove_leading_slash(page.path), config['source']))
         paginate_path = remove_leading_slash(config['paginate_path'])
         paginate_path = File.expand_path(paginate_path, config['source'])
-        page.name == 'index.html' &&
-          in_hierarchy(config['source'], page_dir, File.dirname(paginate_path))
+		if config['paginate_page'] == nil
+			page.name == 'index.html' &&
+				in_hierarchy(config['source'], page_dir, File.dirname(paginate_path))
+		else
+			page.name == config['paginate_page'] &&
+				in_hierarchy(config['source'], page_dir, File.dirname(paginate_path))
+		end
       end
 
       # Determine if the subdirectories of the two paths are the same relative to source
